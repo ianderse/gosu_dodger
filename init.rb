@@ -18,6 +18,7 @@ class GameWindow < Gosu::Window
 	end
 
 	def update
+		@enemy.move
         @player.move_left if self.button_down?(Gosu::KbLeft)
         @player.move_right if self.button_down?(Gosu::KbRight)
 	end
