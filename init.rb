@@ -13,20 +13,34 @@ class GameWindow < Gosu::Window
 		@background = Gosu::Image.new(self, './gfx/blue_stars_800x600.png')
 
 		@player = Player.new(self)
-		@enemy = Enemy.new(self)
 		@player.warp(350, 520)
+
+		@enemies = Array.new
 	end
 
 	def update
-		@enemy.move
+		if rand(100) < 4 and @enemies.size < 10
+        	@enemies.push(Enemy.new(self))
+        end
+
+		@enemies.each { |enemy| enemy.move }
         @player.move_left if self.button_down?(Gosu::KbLeft)
         @player.move_right if self.button_down?(Gosu::KbRight)
+
+        @enemies.reject! do |enemy|
+        	if enemy.score?
+        		@player.score += 5
+        		true
+        	else
+        		false
+        	end
+        end
 	end
 
 	def draw
 		@background.draw(0,0,0)
 		@player.draw
-		@enemy.draw
+		@enemies.each { |enemy| enemy.draw }
 
 		@font.draw("Score: #{@player.score}", 10, 10, 1, 1.0, 1.0, 0xffffff00)
 	end
