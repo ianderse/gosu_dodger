@@ -27,6 +27,12 @@ class GameWindow < Gosu::Window
         @player.move_left if self.button_down?(Gosu::KbLeft)
         @player.move_right if self.button_down?(Gosu::KbRight)
 
+        @enemies.each do |enemy|
+        	if Gosu::distance(enemy.x, enemy.y, @player.x, @player.y) < 40
+        		self.close
+        	end
+        end
+
         @enemies.reject! do |enemy|
         	if enemy.bottom?
         		@player.score += 5

@@ -13,22 +13,22 @@ class Player
 	end
 
 	def move_left
-		if @x > 0
+		if @x > 50
 			@x -= 5
 		else
-			@x = 0
+			@x = 50
 		end
 	end
 
 	def move_right
-		if @x < 700
+		if @x < 750
 			@x += 5
 		else
-			@x = 700
+			@x = 750
 		end
 	end
 
 	def draw
-		@image.draw(@x, @y, 1)
+		@image.draw_rot(@x, @y, 1, 0)
 	end
 end
