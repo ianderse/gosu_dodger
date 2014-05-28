@@ -28,7 +28,7 @@ class GameWindow < Gosu::Window
         @player.move_right if self.button_down?(Gosu::KbRight)
 
         @enemies.reject! do |enemy|
-        	if enemy.score?
+        	if enemy.bottom?
         		@player.score += 5
         		true
         	else
