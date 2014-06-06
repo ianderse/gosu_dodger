@@ -6,7 +6,7 @@ class Enemy
 		@image = Gosu::Image.new(window, './gfx/enemyship.png', false)
 
 		@x = rand * 700
-		@y = rand * 100
+		@y = 0
 
 		@speed = 2 + (rand * 6)
 	end
