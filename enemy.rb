@@ -1,11 +1,14 @@
 class Enemy
 	attr_reader :x, :y
+		
 
 	def initialize(window)
 		@image = Gosu::Image.new(window, './gfx/enemyship.png', false)
 
 		@x = rand * 700
 		@y = rand * 100
+
+		@speed = 2 + (rand * 6)
 	end
 
 	def draw
@@ -13,7 +16,7 @@ class Enemy
 	end
 
 	def move
-		@y += 3
+		@y += @speed
 	end
 
 	def bottom?
