@@ -4,6 +4,7 @@ class Enemy
 
 	def initialize(window)
 		@image = Gosu::Image.new(window, './gfx/enemyship.png', false)
+		@explode = Gosu::Image.new(window, './gfx/laserGreenShot.png', false)
 
 		@x = rand * 700
 		@y = 0
@@ -25,5 +26,9 @@ class Enemy
 		else
 			false
 		end
+	end
+
+	def explode
+		@explode.draw_rot(@x+5, @y+5, 2, 0)
 	end
 end
