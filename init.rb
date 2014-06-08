@@ -30,14 +30,18 @@ class GameWindow < Gosu::Window
 
 		@explodes = Array.new
 
-		@game_is_paused = false
+		@game_is_paused = @game_over = false
 
 		@frame = 0
 
 	end
 
 	def reset_game
-		@player.topscore = @player.score
+		
+		if @player.score > @player.topscore
+			@player.topscore = @player.score
+		end
+
 		@player.score = 0
 
 		@enemies.reject! do |enemy|
@@ -47,6 +51,7 @@ class GameWindow < Gosu::Window
 		@bullets.reject! do |bullet|
 			true
 		end
+
 		game_pause_toggle
 	end
 
@@ -54,7 +59,6 @@ class GameWindow < Gosu::Window
 		if @game_is_paused == false
 
 			@frame += 1
-
 
 			#add new enemy to enemy array
 			if rand(100) < 4 and @enemies.size < 10
@@ -74,11 +78,10 @@ class GameWindow < Gosu::Window
 	        @camera_x = [[@player.x - 400, 0].max, @player.y * 50 - 800].min
     		@camera_y = [[@player.y - 300, 0].max, @player.x * 50 - 600].min
 
-
 	        #Collision detection
-
 	        @enemies.each do |enemy|
 	        	if Gosu::distance(enemy.x, enemy.y, @player.x, @player.y) < 40
+	        		@game_over = true
 	        		reset_game
 	        	end
 	        	@bullets.reject! do |bullet|
@@ -109,6 +112,7 @@ class GameWindow < Gosu::Window
 	        		@frame = 0
 	        	end
 	        end
+
 	        #remove explosion based on number on scren
 	        if @explodes.size > 5
 	        	@explodes.shift
@@ -127,7 +131,12 @@ class GameWindow < Gosu::Window
 		@font.draw("Top Score: #{@player.topscore}", 10, 30, 1, 1.0, 1.0, 0xffffff00)
 
 		if @game_is_paused
-			@font.draw("GAME IS PAUSED press 'p' to resume", 100, 300, 1, 2.0, 2.0, 0xffffff00)
+			if @game_over
+				@font.draw("GAME OVER", 265, 280, 1, 2.0, 2.0, 0xffffff00)
+			else
+				@font.draw("GAME IS PAUSED", 265, 280, 1, 2.0, 2.0, 0xffffff00)
+			end
+			@font.draw("press 'p' to resume", 255, 330, 1, 2.0, 2.0, 0xffffff00)
 		end
 
 	end
