@@ -25,6 +25,8 @@ class GameWindow < Gosu::Window
 		@explode_sound = Gosu::Sample.new(self, './data/sound/explosion.wav')
 		@player_shot_sound = Gosu::Sample.new(self, './data/sound/player_shot.wav')
 
+		@shields_icon = Gosu::Image.new(self, './data/gfx/shield.png')
+
 		@font = Gosu::Font.new(self, Gosu::default_font_name, 20)
 
 		@background = Gosu::Image.new(self, './data/gfx/space.png', false)
@@ -168,6 +170,12 @@ class GameWindow < Gosu::Window
 			@shield.draw
 		end
 
+		@i = @player.shield_count
+		while @i > 0
+			@shields_icon.draw_rot(0+(@i*50), 575, 1, 0, center_x = 0.5, center_y = 0.5, factor_x = 0.25, factor_y = 0.25)
+			@i -= 1
+		end
+
 	end
 
 	def game_pause_toggle
@@ -188,7 +196,9 @@ class GameWindow < Gosu::Window
 				@bullets.push(Bullet.new(@player, self)) 
 			end
 			if key == Gosu::KbSpace
-				@shield.toggle
+				if @shield.status == false
+					@shield.toggle
+				end
 			end
 		end
 	end

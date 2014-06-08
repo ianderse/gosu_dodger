@@ -33,6 +33,11 @@ class Shields
 
 	def toggle
 		@counter = 0
-		@status = true
+		if @player.shield_count > 0
+			@player.shield_count -= 1
+			@status = true
+		else
+			@status = false
+		end
 	end
 end
