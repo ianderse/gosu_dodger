@@ -3,7 +3,7 @@ class Enemy
 		
 
 	def initialize(window)
-		@image = Gosu::Image.new(window, './gfx/enemyship.png', false)
+		@image = Gosu::Image.new(window, './data/gfx/enemyship.png', false)
 
 		@x = 5 + rand * 700
 		@y = 0

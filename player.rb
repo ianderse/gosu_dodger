@@ -5,7 +5,7 @@ class Player
 	attr_accessor :x, :y, :score, :topscore
 
 	def initialize(window)
-		@image = Gosu::Image.new(window, './gfx/player.png', false)
+		@image = Gosu::Image.new(window, './data/gfx/player.png', false)
 		@window = window
 		@x = @y = 0.0
 		@score = 0

@@ -17,9 +17,15 @@ class GameWindow < Gosu::Window
 		super
 		self.caption = "Gosu Tutorial"
 
+		@song = Gosu::Song.new(self, './data/sound/space.mp3')
+		@song.play
+
+		@explode_sound = Gosu::Sample.new(self, './data/sound/explosion.wav')
+		@player_shot_sound = Gosu::Sample.new(self, './data/sound/player_shot.wav')
+
 		@font = Gosu::Font.new(self, Gosu::default_font_name, 20)
 
-		@background = Gosu::Image.new(self, './gfx/space.png', false)
+		@background = Gosu::Image.new(self, './data/gfx/space.png', false)
 
 		@player = Player.new(self)
 		@player.warp(350, 520)
@@ -82,12 +88,14 @@ class GameWindow < Gosu::Window
 	        #Collision detection
 	        @enemies.each do |enemy|
 	        	if Gosu::distance(enemy.x, enemy.y, @player.x, @player.y) < 40
+	        		@explode_sound.play
 	        		@game_over = true
 	        		reset_game
 	        	end
 	        	@bullets.reject! do |bullet|
 	        		@enemies.reject! do |enemy|
 	        			if Gosu::distance(enemy.x, enemy.y, bullet.x, bullet.y) < 40
+	        				@explode_sound.play
 	        				@explodes.push(Explosion.new(enemy, self))
 	        				@player.score += 5
 	        				true
@@ -149,11 +157,18 @@ class GameWindow < Gosu::Window
 
 	def button_up(key)
 		self.close if key == Gosu::KbEscape
+
 		if key == Gosu::KbP
-			@game_over = false
-			game_pause_toggle 
+				@game_over = false
+				game_pause_toggle 
+			end
+
+		if @game_is_paused == false
+			if key == Gosu::KbLeftShift
+				@player_shot_sound.play
+				@bullets.push(Bullet.new(@player, self)) 
+			end
 		end
-		@bullets.push(Bullet.new(@player, self)) if key == Gosu::KbLeftShift
 	end
 end
 
