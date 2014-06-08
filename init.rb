@@ -55,7 +55,11 @@ class GameWindow < Gosu::Window
 			@player.topscore = @player.score
 		end
 
+		@player.shield_count = 3
+
 		@player.score = 0
+
+		@shield.status = false
 
 		@enemies.reject! do |enemy|
 			true
