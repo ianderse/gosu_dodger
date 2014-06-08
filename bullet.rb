@@ -1,6 +1,6 @@
 class Bullet
 
-	attr_reader :x, :y
+	attr_accessor :x, :y
 
 	def initialize(player, window)
 		@player = player

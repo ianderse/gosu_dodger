@@ -1,8 +1,6 @@
-require './bullet'
-
 class Player
 
-	attr_accessor :x, :y, :score, :topscore
+	attr_accessor :x, :y, :score, :topscore, :shield_count
 
 	def initialize(window)
 		@image = Gosu::Image.new(window, './data/gfx/player.png', false)
@@ -10,6 +8,7 @@ class Player
 		@x = @y = 0.0
 		@score = 0
 		@topscore = 0
+		@shield_count = 3
 	end
 
 	def warp(x, y)
@@ -34,9 +33,5 @@ class Player
 
 	def draw
 		@image.draw_rot(@x, @y, 1, 0)
-	end
-
-	def shoot
-		Bullet.new(self, @window)
 	end
 end

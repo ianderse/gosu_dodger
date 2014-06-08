@@ -10,6 +10,8 @@ require 'gosu'
 require './player'
 require './enemy'
 require './explosion'
+require './bullet'
+require './shields'
 require 'rubygems'
 
 class GameWindow < Gosu::Window
@@ -29,6 +31,8 @@ class GameWindow < Gosu::Window
 
 		@player = Player.new(self)
 		@player.warp(350, 520)
+
+		@shield = Shields.new(@player, self)
 
 		@enemies = Array.new
 
@@ -67,6 +71,10 @@ class GameWindow < Gosu::Window
 
 			@frame += 1
 
+			if @shield.status == true
+				@shield.counter += 1
+			end
+
 			#add new enemy to enemy array
 			if rand(100) < 4 and @enemies.size < 10
 	        	@enemies.push(Enemy.new(self))
@@ -81,16 +89,20 @@ class GameWindow < Gosu::Window
 			#move player
 	        @player.move_left if self.button_down?(Gosu::KbLeft)
 	        @player.move_right if self.button_down?(Gosu::KbRight)
-
-	        @camera_x = [[@player.x - 400, 0].max, @player.y * 50 - 800].min
-    		@camera_y = [[@player.y - 300, 0].max, @player.x * 50 - 600].min
+	        @shield.move_left if self.button_down?(Gosu::KbLeft)
+	        @shield.move_right if self.button_down?(Gosu::KbRight)
 
 	        #Collision detection
 	        @enemies.each do |enemy|
 	        	if Gosu::distance(enemy.x, enemy.y, @player.x, @player.y) < 40
-	        		@explode_sound.play
-	        		@game_over = true
-	        		reset_game
+	        		if @shield.status == true
+	        			@enemies.delete(enemy)
+	        			@explode_sound.play
+	        			@player.score += 5
+	        		else
+	        			@game_over = true
+	        			reset_game
+	        		end
 	        	end
 	        	@bullets.reject! do |bullet|
 	        		@enemies.reject! do |enemy|
@@ -149,6 +161,13 @@ class GameWindow < Gosu::Window
 			@font.draw("press 'p' to resume", 255, 330, 1, 2.0, 2.0, 0xffffff00)
 		end
 
+		if @shield.status == true
+			if @shield.counter > 125
+				@shield.status = false
+			end
+			@shield.draw
+		end
+
 	end
 
 	def game_pause_toggle
@@ -167,6 +186,9 @@ class GameWindow < Gosu::Window
 			if key == Gosu::KbLeftShift
 				@player_shot_sound.play
 				@bullets.push(Bullet.new(@player, self)) 
+			end
+			if key == Gosu::KbSpace
+				@shield.toggle
 			end
 		end
 	end

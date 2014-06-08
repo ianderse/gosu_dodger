@@ -1,5 +1,5 @@
 class Enemy
-	attr_reader :x, :y
+	attr_accessor :x, :y
 		
 
 	def initialize(window)
