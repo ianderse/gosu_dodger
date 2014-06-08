@@ -30,14 +30,15 @@ class GameWindow < Gosu::Window
 
 		@explodes = Array.new
 
-		@game_is_paused = @game_over = false
+		@game_is_paused = true
+		@game_over = false
 
 		@frame = 0
 
 	end
 
 	def reset_game
-		
+
 		if @player.score > @player.topscore
 			@player.topscore = @player.score
 		end
@@ -135,6 +136,7 @@ class GameWindow < Gosu::Window
 				@font.draw("GAME OVER", 265, 280, 1, 2.0, 2.0, 0xffffff00)
 			else
 				@font.draw("GAME IS PAUSED", 265, 280, 1, 2.0, 2.0, 0xffffff00)
+				@font.draw("shift to shoot", 265, 380, 1, 2.0, 2.0, 0xffffff00)
 			end
 			@font.draw("press 'p' to resume", 255, 330, 1, 2.0, 2.0, 0xffffff00)
 		end
@@ -142,13 +144,15 @@ class GameWindow < Gosu::Window
 	end
 
 	def game_pause_toggle
-		
 		@game_is_paused = !@game_is_paused
 	end
 
 	def button_up(key)
 		self.close if key == Gosu::KbEscape
-		game_pause_toggle if key == Gosu::KbP
+		if key == Gosu::KbP
+			@game_over = false
+			game_pause_toggle 
+		end
 		@bullets.push(Bullet.new(@player, self)) if key == Gosu::KbLeftShift
 	end
 end
