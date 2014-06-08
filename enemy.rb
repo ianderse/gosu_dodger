@@ -4,9 +4,8 @@ class Enemy
 
 	def initialize(window)
 		@image = Gosu::Image.new(window, './gfx/enemyship.png', false)
-		@explode = Gosu::Image.new(window, './gfx/laserGreenShot.png', false)
 
-		@x = rand * 700
+		@x = 5 + rand * 700
 		@y = 0
 
 		@speed = 2 + (rand * 6)

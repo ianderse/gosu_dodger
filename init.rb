@@ -1,6 +1,7 @@
 #TODO: 
 #Add shields (3 per game, icons at the bottom)
-#Ability to shoot
+#Ability to shoot (done)
+#remove explosion gfx after a set amount of time
 #Powerups
 #Extra point drops from enemies
 
@@ -29,10 +30,15 @@ class GameWindow < Gosu::Window
 		@explodes = Array.new
 
 		@game_is_paused = false
+
+		@frame = 0
 	end
 
 	def update
 		if @game_is_paused == false
+
+			@frame += 1
+
 
 			#add new enemy to enemy array
 			if rand(100) < 4 and @enemies.size < 10
@@ -50,7 +56,7 @@ class GameWindow < Gosu::Window
 	        @player.move_right if self.button_down?(Gosu::KbRight)
 
 
-	        #Collision detection (enemy to player)
+	        #Collision detection
 
 	        @enemies.each do |enemy|
 	        	if Gosu::distance(enemy.x, enemy.y, @player.x, @player.y) < 40
@@ -65,17 +71,28 @@ class GameWindow < Gosu::Window
 	        			end
 	        		end
 	        	end
-
 	        end
 
-	        #remove enemy from array (and screen) when it hits the bottom of the screen, subtract from player score
+	        #remove enemy from array (and screen) when it hits the bottom subtract from player score
 	        @enemies.reject! do |enemy|
 	        	if enemy.bottom?
-	        		@player.score -= 5
+	        		@player.score -= 2
 	        		true
 	        	else
 	        		false
 	        	end
+	        end
+
+	        #remove explosion based on time
+	        if @explodes != nil
+	        	if @frame > 35
+	        		@explodes.shift
+	        		@frame = 0
+	        	end
+	        end
+	        #remove explosion based on number on scren
+	        if @explodes.size > 5
+	        	@explodes.shift
 	        end
 		end
 	end
