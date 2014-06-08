@@ -2,13 +2,14 @@ require './bullet'
 
 class Player
 
-	attr_accessor :x, :y, :score
+	attr_accessor :x, :y, :score, :topscore
 
 	def initialize(window)
 		@image = Gosu::Image.new(window, './gfx/player.png', false)
 		@window = window
 		@x = @y = 0.0
 		@score = 0
+		@topscore = 0
 	end
 
 	def warp(x, y)
