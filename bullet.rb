@@ -2,7 +2,7 @@ class Bullet
 
 	attr_accessor :x, :y
 
-	def initialize(player, window)
+	def initialize(player, window, powerup)
 		@player = player
 		@image = Gosu::Image.new(window, './data/gfx/laserGreen.png', false)
 		@x = @player.x
