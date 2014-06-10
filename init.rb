@@ -42,6 +42,8 @@ class GameWindow < Gosu::Window
 
 		@explodes = Array.new
 
+		@powerups = Array.new
+
 		@game_is_paused = true
 		@game_over = false
 
@@ -69,6 +71,10 @@ class GameWindow < Gosu::Window
 			true
 		end
 
+		@powerups.reject! do |powerup|
+			true
+		end
+
 		game_pause_toggle
 	end
 
@@ -90,7 +96,7 @@ class GameWindow < Gosu::Window
 	        	if rand(100) < 8 and @enemies.size < 15
 	        		@enemies.push(Enemy.new(self))
 	        	end
-			elsif @player.score < 50
+			elsif @player.score < 75
 				if rand(100) < 4 and @enemies.size < 10
 	        		@enemies.push(Enemy.new(self))
 	        	end
@@ -127,6 +133,7 @@ class GameWindow < Gosu::Window
 	        				@explode_sound.play
 	        				@explodes.push(Explosion.new(enemy, self))
 	        				@player.score += 5
+	        				enemy.drop_powerup(@powerups, enemy, self)
 	        				true
 	        			end
 	        		end
@@ -164,6 +171,7 @@ class GameWindow < Gosu::Window
 		@enemies.each { |enemy| enemy.draw }
 		@bullets.each { |bullet| bullet.draw }
 		@explodes.each { |exp| exp.draw }
+		@powerups.each { |powerup| powerup.draw }
 
 		@font.draw("Score: #{@player.score}", 10, 10, 1, 1.0, 1.0, 0xffffff00)
 		@font.draw("Top Score: #{@player.topscore}", 10, 30, 1, 1.0, 1.0, 0xffffff00)
@@ -201,14 +209,14 @@ class GameWindow < Gosu::Window
 		self.close if key == Gosu::KbEscape
 
 		if key == Gosu::KbP
-				@game_over = false
-				game_pause_toggle 
-			end
+			@game_over = false
+			game_pause_toggle 
+		end
 
 		if @game_is_paused == false
 			if key == Gosu::KbLeftShift
 				@player_shot_sound.play
-				@bullets.push(Bullet.new(@player, self)) 
+				@bullets.push(Bullet.new(@player, self, 0)) 
 			end
 			if key == Gosu::KbSpace
 				if @shield.status == false

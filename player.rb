@@ -11,6 +11,10 @@ class Player
 		@shield_count = 3
 	end
 
+	def power_up_shield
+		@player.shield_count += 1
+	end
+
 	def warp(x, y)
 		@x, @y = x, y
 	end

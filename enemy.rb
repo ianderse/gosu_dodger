@@ -1,7 +1,9 @@
+require './powerup'
+
 class Enemy
+
 	attr_accessor :x, :y
 		
-
 	def initialize(window)
 		@image = Gosu::Image.new(window, './data/gfx/enemyship.png', false)
 
@@ -29,5 +31,11 @@ class Enemy
 
 	def explode
 		@explode.draw_rot(@x+5, @y+5, 2, 0)
+	end
+
+	def drop_powerup(powerups, enemy, window)
+		if rand(100) < 50
+			powerups.push(Powerup.new(enemy, window))
+		end
 	end
 end
