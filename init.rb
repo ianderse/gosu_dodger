@@ -1,8 +1,8 @@
 #TODO: 
-#Add shields (3 per game, icons at the bottom)
+#Add shields (3 per game, icons at the bottom) (done)
 #Ability to shoot (done)
 #remove explosion gfx after a set amount of time (done)
-#Parallax scrolling for background
+#scrolling for background
 #Powerups
 #Extra point drops from enemies
 
