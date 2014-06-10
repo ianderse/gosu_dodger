@@ -202,6 +202,7 @@ class GameWindow < Gosu::Window
 			else
 				@font.draw("GAME IS PAUSED", 265, 280, 1, 2.0, 2.0, 0xffffff00)
 				@font.draw("shift to shoot", 265, 380, 1, 2.0, 2.0, 0xffffff00)
+				@font.draw("space activates shields", 265, 420, 1, 2.0, 2.0, 0xffffff00)
 			end
 			@font.draw("press 'p' to resume", 255, 330, 1, 2.0, 2.0, 0xffffff00)
 		end
