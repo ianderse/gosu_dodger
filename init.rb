@@ -109,6 +109,9 @@ class GameWindow < Gosu::Window
 			#move bullets
 			@bullets.each { |bullet| bullet.move }
 
+			#move powerups
+			@powerups.each { |powerup| powerup.move }
+
 			#move player
 	        @player.move_left if self.button_down?(Gosu::KbLeft)
 	        @player.move_right if self.button_down?(Gosu::KbRight)
@@ -140,10 +143,27 @@ class GameWindow < Gosu::Window
 	        	end
 	        end
 
+	        @powerups.each do |powerup|
+	        	if Gosu::distance(powerup.x, powerup.y, @player.x, @player.y) < 30
+	        		if @player.shield_count < 3
+	        			@player.shield_count += 1
+	        		end
+	        		@powerups.delete(powerup)
+	        	end
+	        end
+
 	        #remove enemy from array (and screen) when it hits the bottom subtract from player score
 	        @enemies.reject! do |enemy|
 	        	if enemy.bottom?
 	        		@player.score -= 2
+	        		true
+	        	else
+	        		false
+	        	end
+	        end
+
+	        @powerups.reject! do |powerup|
+	        	if powerup.bottom?
 	        		true
 	        	else
 	        		false

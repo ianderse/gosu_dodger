@@ -34,8 +34,8 @@ class Enemy
 	end
 
 	def drop_powerup(powerups, enemy, window)
-		if rand(100) < 50
-			powerups.push(Powerup.new(enemy, window))
+		if rand(100) < 5
+			powerups.push(Powerup.new(enemy, window, 1))
 		end
 	end
 end
