@@ -82,8 +82,19 @@ class GameWindow < Gosu::Window
 			end
 
 			#add new enemy to enemy array
-			if rand(100) < 4 and @enemies.size < 10
-	        	@enemies.push(Enemy.new(self))
+			if @player.score > 125
+				if rand(100) < 15 and @enemies.size < 20
+	        		@enemies.push(Enemy.new(self))
+	        	end
+			elsif @player.score > 75 && @player.score < 125
+	        	if rand(100) < 8 and @enemies.size < 15
+	        		@enemies.push(Enemy.new(self))
+	        	end
+			elsif @player.score < 50
+				if rand(100) < 4 and @enemies.size < 10
+	        		@enemies.push(Enemy.new(self))
+	        	end
+	        
 	        end
 
 	        #move enemy
