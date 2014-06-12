@@ -5,7 +5,7 @@ class Enemy
 	attr_accessor :x, :y
 		
 	def initialize(window)
-		@image = Gosu::Image.new(window, './data/gfx/enemyship.png', false)
+		@image = Gosu::Image.new(window, './data/gfx/enemyShip.png', false)
 
 		@x = 5 + rand * 700
 		@y = 0
